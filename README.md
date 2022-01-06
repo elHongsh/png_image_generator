@@ -14,10 +14,43 @@ Samples below are 256x256 image, but it does not mean that implementation cannot
 ### The Entropy (spread RGB randomly)
 ![TheEntropy](https://user-images.githubusercontent.com/51532228/148304799-58340a41-d0c1-443e-9e64-a4a1ec56996c.png)  
 Image size: 256x256
+```python
+# The Entropy
+from random import Random
+from typing import List
+
+from png.generator import TrueColorImageGenerator
+from png.image import Color
+
+
+def random_line(length: int) -> List[Color]:
+    r = Random()
+    return [Color(r.randint(0, 255), r.randint(0, 255), r.randint(0, 255)) for _ in range(0, length)]
+
+
+if __name__ == '__main__':
+    image_array = [random_line(256) for _ in range(0, 256)]
+    image = TrueColorImageGenerator.create_image_from_array(image_array)
+
+    with open(f'image_{image.width}x{image.height}1.png', 'wb') as f:
+        f.write(image.data)
+```
 
 ### Red Gradation (0~255, 0, 0, 255)
 ![RedGradation](https://user-images.githubusercontent.com/51532228/148305164-8abeb01f-d240-4faa-9015-59399f1ddaa1.png)  
 Image size: 256x256
+```python
+# Red Gradation
+from png.generator import TrueColorImageGenerator
+from png.image import Color
+
+if __name__ == '__main__':
+    image_array = [[Color(x, 0, 0, 255) for x in range(0, 255)] for y in range(0, 255)]
+    image = TrueColorImageGenerator.create_image_from_array(image_array)
+
+    with open(f'image_{image.width}x{image.height}.png', 'wb') as f:
+        f.write(image.data)
+```
 
 
 ## PNG Structure
